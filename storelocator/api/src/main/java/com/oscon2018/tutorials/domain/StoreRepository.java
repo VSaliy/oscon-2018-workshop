@@ -7,5 +7,5 @@ public interface StoreRepository {
     void createIndex(String indexName);
     void deleteIndex(String indexName);
     void addStoreToIndex(String indexName, StoreRecord store);
-    List<StoreRecord> query(BigDecimal lat, BigDecimal lon, String distance);
+    List<StoreRecord> query(String indexName, BigDecimal lat, BigDecimal lon, Integer distance);
 }

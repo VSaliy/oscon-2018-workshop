@@ -1,5 +1,6 @@
 package com.oscon2018.tutorials.models;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -20,12 +21,12 @@ public class Location  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("Latitude")
-  private String latitude = null;
+  private BigDecimal latitude = null;
 
   @JsonProperty("Longitude")
-  private String longitude = null;
+  private BigDecimal longitude = null;
 
-  public Location latitude(String latitude) {
+  public Location latitude(BigDecimal latitude) {
     this.latitude = latitude;
     return this;
   }
@@ -37,15 +38,15 @@ public class Location  implements Serializable {
   @ApiModelProperty(value = "Store location Latitude value")
 
 
-  public String getLatitude() {
+  public BigDecimal getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(String latitude) {
+  public void setLatitude(BigDecimal latitude) {
     this.latitude = latitude;
   }
 
-  public Location longitude(String longitude) {
+  public Location longitude(BigDecimal longitude) {
     this.longitude = longitude;
     return this;
   }
@@ -57,11 +58,11 @@ public class Location  implements Serializable {
   @ApiModelProperty(value = "Store location Longitude value")
 
 
-  public String getLongitude() {
+  public BigDecimal getLongitude() {
     return longitude;
   }
 
-  public void setLongitude(String longitude) {
+  public void setLongitude(BigDecimal longitude) {
     this.longitude = longitude;
   }
 

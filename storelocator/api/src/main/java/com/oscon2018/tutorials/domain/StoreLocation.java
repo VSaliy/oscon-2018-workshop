@@ -11,6 +11,22 @@ public class StoreLocation {
         this.lon = builder.lon;
     }
 
+    public BigDecimal getLat() {
+        return lat;
+    }
+
+    public void setLat(BigDecimal lat) {
+        this.lat = lat;
+    }
+
+    public BigDecimal getLon() {
+        return lon;
+    }
+
+    public void setLon(BigDecimal lon) {
+        this.lon = lon;
+    }
+
     public static final class Builder {
         private BigDecimal lat;
         private BigDecimal lon;

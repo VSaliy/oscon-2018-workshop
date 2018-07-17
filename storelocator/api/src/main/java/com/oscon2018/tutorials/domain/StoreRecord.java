@@ -42,6 +42,74 @@ public class StoreRecord {
 
     }
 
+    public String getStoreCode() {
+        return storeCode;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getPrimaryPhone() {
+        return primaryPhone;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String[] getPaymentTypes() {
+        return paymentTypes;
+    }
+
+    public String getPrimaryCategory() {
+        return primaryCategory;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public ArrayList<StoreHour> getStoreHours() {
+        return storeHours;
+    }
+
+    public StoreLocation getStoreLocation() {
+        return storeLocation;
+    }
+
+    public String getSapId() {
+        return sapId;
+    }
+
     public static final class Builder {
         private String storeCode;
         private String businessName;
