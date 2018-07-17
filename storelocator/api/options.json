@@ -8,8 +8,5 @@
         "dateLibrary": "joda",
         "groupId": "com.oscon2018.tutorials",
         "artifactId": "storelocator",
-        "java8": true,
-        "async": true,
-        "delegatePattern": true,
         "hideGenerationTimestamp": true
 }

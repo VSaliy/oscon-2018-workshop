@@ -25,11 +25,11 @@ In this section we will configure github sync to automatically update store loca
 
 7. Share the storelocator API with another person next to you and get some feedback
 
-8. Generate Initial Server Stub using Swagger tools
+## Generate Initial Server Stub using Swagger tools
 
-    a. Create a json file and name it options.json
+1. Create a json file and name it options.json
 
-    b. Add Json snippet below as contents of option.json
+2. Add Json snippet below as contents of option.json
 
     ```
     {
@@ -41,15 +41,12 @@ In this section we will configure github sync to automatically update store loca
         "serializableModel": true,
         "dateLibrary": "joda",
         "groupId": "com.oscon2018.tutorials",
-        "artifactId": "store-locator",
-        "artifactVersion": "1.0-SNAPSHOT",
-        "java8": true,
-        "async": true,
-        "delegatePattern": true,
+        "artifactId": "storelocator",
         "hideGenerationTimestamp": true
     }
 
     ``` 
+
 if you want to see list of configuration options supported in json for springboot, run command below
 
 ```
@@ -59,4 +56,41 @@ swagger-codegen config-help -l spring
 ```
 swagger-codegen generate -i storelocator.yaml -l spring -c options.json --skip-overwrite
 
+```
+
+## Migrate the generated SpringBoot project to Spring 2.0
+
+Change the java version to 1.8 by updating the java.version property in pom.xml as shown below
+
+```
+<properties>
+    <java.version>1.8</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <springfox-version>2.7.0</springfox-version>
+</properties>
+```
+
+Update springboot version to 2.0.3.RELEASE as shown below
+
+```
+ <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.0.3.RELEASE</version>
+</parent>
+
+```
+
+Replace the build element with below snippet
+
+```
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
 ```
