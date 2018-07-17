@@ -1,0 +1,79 @@
+version: "2.4"
+
+services:
+  #Service Registry
+  eurekaserver:
+    build:
+      context: core/eurekaserver/Dockerfile
+    image: appsbyram/eurekaserver
+    ports:
+      - 8761:8761
+    container_name: "eurekaserver"
+    networks: 
+      - storelocatorapp_net
+    environment:
+      - PROFILE=docker
+    restart: always
+
+  #Config Server
+  configserver:
+    build:
+      context: core/configserver/Dockerfile
+    image: appsbyram/configserver
+    ports:
+      - 8888:8888
+    container_name: "configserver"
+    networks: 
+      - storelocatorapp_net
+    links:
+      - eurekaserver
+    depends_on:
+      - eurekaserver
+    environment:
+      - PROFILE=docker
+    restart: always
+
+  #edge service
+  gateway:
+    build:
+      context: core/gateway/Dockerfile
+    image: appsbyram/gateway
+    ports:
+      - 80:80
+    container_name: gateway
+    networks: 
+      - storelocatorapp_net
+    links:
+      - eurekaserver
+      - configserver
+    depends_on:
+      - eurekaserver
+      - configserver
+    environment:
+      - PROFILE=docker
+    restart: always
+
+  #test service
+  tests:
+    build:
+      context: core/tests/Dockerfile
+    image: appsbyram/test
+    ports:
+      - 8080:8080
+    container_name: tester
+    networks:
+      - storelocatorapp_net
+    links:
+      - eurekaserver
+      - configserver
+    depends_on:
+      - eurekaserver
+      - configserver
+    environment:
+      - PROFILE=docker
+    restart: always
+#Container network
+networks:
+  storelocatorapp_net:
+    driver: bridge
+

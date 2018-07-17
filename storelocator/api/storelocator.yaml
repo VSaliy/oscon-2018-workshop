@@ -1,0 +1,449 @@
+---
+swagger: "2.0"
+info:
+  description: This is a simple storelocator API
+  version: 1.0.0
+  title: Store Locator API
+  contact:
+    email: apisupport@appsbyram.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  x-metadata:
+    comment: Additional Info
+    createdBy: Ram Gopinathan
+    createDate: 07/17/2018 13:00:00
+    authors:
+    - name: Ram Gopinathan
+      email: rprakashg@gmail.com
+host: virtserver.swaggerhub.com
+basePath: /storelocator/1.0
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: query
+  description: Query operations available for API consumers
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /admin/indices/:
+    post:
+      tags:
+      - admins
+      summary: Create a new index
+      description: create a new index for storing store documents
+      operationId: createIndex
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: newIndex
+        description: New index to create
+        required: false
+        schema:
+          $ref: '#/definitions/Index'
+      responses:
+        201:
+          description: Index created
+          schema:
+            $ref: '#/definitions/Index'
+          responseSchema:
+            $ref: '#/definitions/Index'
+        400:
+          description: Bad request
+        409:
+          description: An existing index already exists
+  /admin/indices/{indexName}:
+    delete:
+      tags:
+      - admins
+      summary: Deletes an existing index
+      description: delete an existing index
+      operationId: deleteIndex
+      parameters:
+      - name: indexName
+        in: path
+        description: index name
+        required: true
+        type: string
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Bad request
+  /index/{indexName}:
+    put:
+      tags:
+      - admins
+      summary: Index store data
+      description: Index store data from CSV file posted
+      operationId: index
+      consumes:
+      - multipart/form-data
+      parameters:
+      - name: indexName
+        in: path
+        description: index name
+        required: true
+        type: string
+      - name: csvPayload
+        in: formData
+        description: CSV file containing store data that needs to be indexed
+        required: false
+        type: file
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/IndexerResponse'
+          responseSchema:
+            $ref: '#/definitions/IndexerResponse'
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+  /index/{indexName}/query:
+    post:
+      tags:
+      - query
+      summary: query stores
+      description: Query stores based on latitude/longitude and distance
+      operationId: queryStores
+      parameters:
+      - name: indexName
+        in: path
+        description: index name
+        required: true
+        type: string
+      - in: body
+        name: queryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/QueryRequest'
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/QueryResponse'
+          responseSchema:
+            $ref: '#/definitions/QueryResponse'
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+          responseSchema:
+            $ref: '#/definitions/Error'
+definitions:
+  Index:
+    type: object
+    properties:
+      Name:
+        type: string
+        example: storelocator
+      Errors:
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+    example:
+      Errors:
+      - Description: This is a sample error
+        Code: "001"
+      Name: storelocator
+  IndexerResponse:
+    type: object
+    properties:
+      IndexName:
+        type: string
+        example: storelocator
+        description: index name
+      StoresIndexed:
+        type: array
+        description: stores that got successfully added to index
+        items:
+          $ref: '#/definitions/Store'
+      StoresFailedToIndex:
+        type: array
+        description: stores documents that filed to index
+        items:
+          $ref: '#/definitions/Store'
+    example:
+      IndexName: storelocator
+      StoresIndexed:
+      - StoreCode: LTDC - 1243
+        BusinessName: T-Mobile Oak Lawn
+        Address1: 9300 S Cicero Ave
+        Address2: ""
+        City: Oak Lawn
+        State: IL
+        PostalCode: 60453-2500
+        Country: US
+        PrimaryPhone: (708) 424-4222
+        Website: http://www.t-mobile.com/store/cell-phone-oak_lawn-il-998.html
+        Description: Visit T-Mobile Oak Lawn cell phone stores and discover T-Mobile's best smartphones, cell phones, tablets, and internet devices. View our low cost plans with no annual service contracts.
+        PaymentTypes:
+        - MasterCard
+        - Visa
+        - American Express
+        - Cash
+        - Checks
+        PrimaryCategory: Cell Phone Store
+        Photo: http://www.t-mobile.com/content/dam/tmo/store-locator-images/440_360_t-mobile-logo-default.jpg
+        Hours: 11:00AM-05:00PM
+        Location:
+          Latitude: "41.7235523"
+          Longitude: -87.7414581
+        SapId: "1243"
+      StoresFailedToIndex:
+      - StoreCode: LTDC - 1243
+        BusinessName: T-Mobile Oak Lawn
+        Address1: 9300 S Cicero Ave
+        Address2: ""
+        City: Oak Lawn
+        State: IL
+        PostalCode: 60453-2500
+        Country: US
+        PrimaryPhone: (708) 424-4222
+        Website: http://www.t-mobile.com/store/cell-phone-oak_lawn-il-998.html
+        Description: Visit T-Mobile Oak Lawn cell phone stores and discover T-Mobile's best smartphones, cell phones, tablets, and internet devices. View our low cost plans with no annual service contracts.
+        PaymentTypes:
+        - MasterCard
+        - Visa
+        - American Express
+        - Cash
+        - Checks
+        PrimaryCategory: Cell Phone Store
+        Photo: http://www.t-mobile.com/content/dam/tmo/store-locator-images/440_360_t-mobile-logo-default.jpg
+        Hours: 11:00AM-05:00PM
+        Location:
+          Latitude: "41.7235523"
+          Longitude: -87.7414581
+        SapId: "1243"
+  QueryRequest:
+    type: object
+    properties:
+      Lat:
+        type: number
+        description: Latitude
+      Lon:
+        type: number
+        description: Longitude
+      Distance:
+        type: integer
+        description: Geo distance
+      SapId:
+        type: integer
+        description: Sap identifier
+    description: Store locator query request
+    example:
+      SapId: 5
+      Lon: 6.02745618307040320615897144307382404804229736328125
+      Lat: 0.80082819046101150206595775671303272247314453125
+      Distance: 1
+  QueryResponse:
+    type: object
+    properties:
+      Hits:
+        type: integer
+        description: Total number of hits
+      TookInMillis:
+        type: integer
+        description: Time took to execute the geo distance search
+      Stores:
+        type: array
+        description: Collection to stores that matched the query criteria
+        items:
+          $ref: '#/definitions/Store'
+      Errors:
+        type: array
+        description: Errors occurred when executing storelocator query
+        items:
+          $ref: '#/definitions/Error'
+    description: Store locator query response
+    example:
+      Errors:
+      - Description: This is a sample error
+        Code: "001"
+      - Description: This is a sample error
+        Code: "001"
+      Hits: 0
+      TookInMillis: 6
+      Stores:
+      - StoreCode: LTDC - 1243
+        BusinessName: T-Mobile Oak Lawn
+        Address1: 9300 S Cicero Ave
+        Address2: ""
+        City: Oak Lawn
+        State: IL
+        PostalCode: 60453-2500
+        Country: US
+        PrimaryPhone: (708) 424-4222
+        Website: http://www.t-mobile.com/store/cell-phone-oak_lawn-il-998.html
+        Description: Visit T-Mobile Oak Lawn cell phone stores and discover T-Mobile's best smartphones, cell phones, tablets, and internet devices. View our low cost plans with no annual service contracts.
+        PaymentTypes:
+        - MasterCard
+        - Visa
+        - American Express
+        - Cash
+        - Checks
+        PrimaryCategory: Cell Phone Store
+        Photo: http://www.t-mobile.com/content/dam/tmo/store-locator-images/440_360_t-mobile-logo-default.jpg
+        Hours: 11:00AM-05:00PM
+        Location:
+          Latitude: "41.7235523"
+          Longitude: -87.7414581
+        SapId: "1243"
+      - StoreCode: LTDC - 1243
+        BusinessName: T-Mobile Oak Lawn
+        Address1: 9300 S Cicero Ave
+        Address2: ""
+        City: Oak Lawn
+        State: IL
+        PostalCode: 60453-2500
+        Country: US
+        PrimaryPhone: (708) 424-4222
+        Website: http://www.t-mobile.com/store/cell-phone-oak_lawn-il-998.html
+        Description: Visit T-Mobile Oak Lawn cell phone stores and discover T-Mobile's best smartphones, cell phones, tablets, and internet devices. View our low cost plans with no annual service contracts.
+        PaymentTypes:
+        - MasterCard
+        - Visa
+        - American Express
+        - Cash
+        - Checks
+        PrimaryCategory: Cell Phone Store
+        Photo: http://www.t-mobile.com/content/dam/tmo/store-locator-images/440_360_t-mobile-logo-default.jpg
+        Hours: 11:00AM-05:00PM
+        Location:
+          Latitude: "41.7235523"
+          Longitude: -87.7414581
+        SapId: "1243"
+  Store:
+    type: object
+    required:
+    - Address1
+    - BusinessName
+    - City
+    - Country
+    - PostalCode
+    - PrimaryPhone
+    - State
+    - StoreCode
+    properties:
+      StoreCode:
+        type: string
+        description: Store code
+      BusinessName:
+        type: string
+        description: Business name
+      Address1:
+        type: string
+        description: Address line 1
+      Address2:
+        type: string
+        description: Address line 2
+      City:
+        type: string
+        description: City
+      State:
+        type: string
+        description: state
+      PostalCode:
+        type: string
+        description: Postal code
+      Country:
+        type: string
+        description: Country
+      PrimaryPhone:
+        type: string
+        description: Primary phone number for the store
+      Website:
+        type: string
+        description: Store website URL
+      Description:
+        type: string
+        description: Store description
+      PaymentTypes:
+        type: array
+        items:
+          type: string
+      PrimaryCategory:
+        type: string
+        description: Primary category
+      Photo:
+        type: string
+        description: Store photo URL
+      Hours:
+        type: string
+        description: Store hours of operation
+      Location:
+        $ref: '#/definitions/Location'
+      SapId:
+        type: string
+        description: SAP Identifier
+    description: store document
+    example:
+      StoreCode: LTDC - 1243
+      BusinessName: T-Mobile Oak Lawn
+      Address1: 9300 S Cicero Ave
+      Address2: ""
+      City: Oak Lawn
+      State: IL
+      PostalCode: 60453-2500
+      Country: US
+      PrimaryPhone: (708) 424-4222
+      Website: http://www.t-mobile.com/store/cell-phone-oak_lawn-il-998.html
+      Description: Visit T-Mobile Oak Lawn cell phone stores and discover T-Mobile's best smartphones, cell phones, tablets, and internet devices. View our low cost plans with no annual service contracts.
+      PaymentTypes:
+      - MasterCard
+      - Visa
+      - American Express
+      - Cash
+      - Checks
+      PrimaryCategory: Cell Phone Store
+      Photo: http://www.t-mobile.com/content/dam/tmo/store-locator-images/440_360_t-mobile-logo-default.jpg
+      Hours: 11:00AM-05:00PM
+      Location:
+        Latitude: "41.7235523"
+        Longitude: -87.7414581
+      SapId: "1243"
+  Location:
+    type: object
+    properties:
+      Latitude:
+        type: string
+        description: Store location Latitude value
+      Longitude:
+        type: string
+        description: Store location Longitude value
+    description: Store location
+  Error:
+    type: object
+    required:
+    - Code
+    - Description
+    properties:
+      Code:
+        type: string
+        example: "001"
+        description: Error code
+      Description:
+        type: string
+        example: This is a sample error
+        description: Error description
+    example:
+      Description: This is a sample error
+      Code: "001"
+parameters:
+  indexName:
+    name: indexName
+    in: path
+    description: index name
+    required: true
+    type: string

@@ -1,0 +1,15 @@
+{
+        "basePackage": "com.oscon2018.tutorials",
+        "invokerPackage": "com.oscon2018.tutorials",
+        "configPackage": "com.oscon2018.tutorials.configuration", 
+        "modelPackage": "com.oscon2018.tutorials.models",
+        "apiPackage": "com.oscon2018.tutorials.api",
+        "serializableModel": true,
+        "dateLibrary": "joda",
+        "groupId": "com.oscon2018.tutorials",
+        "artifactId": "storelocator",
+        "java8": true,
+        "async": true,
+        "delegatePattern": true,
+        "hideGenerationTimestamp": true
+}
