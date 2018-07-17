@@ -73,6 +73,29 @@ services:
       - PROFILE=docker
     restart: always
   
+  #storelocator
+  storelocator:
+      build:
+        context: api/Dockerfile
+      image: appsbyram/storelocator
+      ports:
+        - 8081:8081
+      container_name: storelocator
+      networks:
+        - storelocatorapp_net
+      links:
+        - eurekaserver
+        - configserver
+        - elasticsearch
+      depends_on:
+        - eurekaserver
+        - configserver
+        - elasticsearch
+      environment:
+        - PROFILE=docker
+      restart: always
+
+  #elastic
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
     ports:
@@ -91,7 +114,7 @@ services:
         soft: -1
         hard: -1
     restart: always
-    
+
 #Container network
 networks:
   storelocatorapp_net:
