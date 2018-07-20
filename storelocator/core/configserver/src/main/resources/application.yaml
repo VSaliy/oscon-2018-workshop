@@ -14,36 +14,9 @@ spring:
     config:
       server:
         git:
-          uri: git@github.com:appsbyram/config.git
+          uri: {git URL here}
           ignore-local-ssh-settings: true
-          private-key: |
-            -----BEGIN RSA PRIVATE KEY-----
-            MIIEpAIBAAKCAQEArnpZ/qqOKtmXxB75CPHC2zdHhhNgIoGchn6PZmDjSFjG7YSn
-            GtmZu/8fjddDLO0XEAoAaaBYd1gYousr9swbwSGL9IUykEwfE+tw/3tUxQsnBKrx
-            3o6uoeQdIWGJw+pjS9Tb8lq5boRU0eEhtMZO80E5HBUspgll9YC76Jh9JndOLTc+
-            8daZ6hhSZJGJDGzMLMVdNynFIY0g5xLpYq/xlmNw6w713/Hycos1nmTGrH6oc1PB
-            Sl3FZcC7MPJENj12eJK2vqnkgARdsZ2/GwMps3sQFdCIhEalwJRFC3xlJzCiixW2
-            ohBygZeDMP7XHDNFO8lucblW5O9WIX1INwqkqwIDAQABAoIBAFee+jL6VAsQ2zaS
-            l132i3Srfi/G6zBpBsJELJ+taHacnsoJJCJHxPy0UpRY1lNpfXuAilSBQewtQbIP
-            iDSYrBeBUVeqzInKsJDAXC7xMNEDmMSvVGgAH5MNi9OHuDe7LcKXUx2Skiz+J9p+
-            xP6T2HIw/w0rVRDNB3cS/0r/yVnXG39K65LGs6wgEqB4Jdr2QHGn8Z8yFmuate14
-            Hj80kXIPMR0+5PGBhKJz92Mj9B7EluB3r5k+fvjGzx8efoQMDDpk8vCyhgukKe1u
-            P8mw06ultRfvmKU47kMrbSQyDPhV+uKXZMpgvwy1PwkMtxbgBegci1Tq7lpiqtcP
-            bu+ZEAECgYEA46jCoSklW4ncXkhn/eW8S0Jr+hSjaJ5vhv1GrpzjToQMHpGyQoJm
-            rZ60NEETDAY21R6uIGnVuWGxWBFr6zrAp7VCM37bCtCZHqCymjvjcbk23SWNaPg6
-            jOif8senuQ8aOJAXvgRcVSh8yZeKwEox0bBcEiudgOkjMhc/oIo6GoECgYEAxDLD
-            rxnRbUXSLZpl+oMwOmnZLNFaQuSNuLbJhmIXLejkrPqHXvuscze1c27HZ74bmctD
-            D6ISID7Byp87cfpJCHWFrMXNLhQlgmH/k3LYTZj+33LmxkbWzdQlOp8vg5DolxcZ
-            yo36uwzH/y6U0biP2cgkJ75IHaCQvGtb2bZ1sSsCgYAZXYZB+pmk91lMT/j2OxCd
-            ugrZ1E7Yqz515eZoMibJasEG7ujTrD/QfGxLniyHHHIjkMWJ6wDbJN1jmJ1Tmjo4
-            9WMo5at2KwPEe9cqhB21YBOS1EpLNc0gQhMAM+qmHd6oCrX6f/Xhrx8oPvBAuIOQ
-            f3vismVcJZ28SQbX1k7fAQKBgQCryaMrYxjLa/Ie+ezGzy1gSCPfKSO2JHauwGVt
-            499V1HC9wNLc6NJTQ/j9rIauoHd8TsxWGNt0Hl8Cci/TmYlu/a/g2oTQDtXU9seY
-            LFuWfhrUPcAw5f/Y0yMR1CX/Nddhy9lKUMy0EPngxsGJa+eQkbyOi/6K6ncwc3RG
-            CYu9ZwKBgQDJxtEVLu9uu9d8ShzoeXeM/iOQvGvfA10EyZJMxlJUlKLIE4VQpFmX
-            /ZE9R77RyOFPSOGvdnAtiClBLelC+hSL9nbVFodDWX/LLD1Wg07km0dhrZa5Gde+
-            YvWqaWnBeiom5Co0vjNz4zuMCPeemHPLbbbFhchmd3yJRMvWvhNsfw==
-            -----END RSA PRIVATE KEY-----
+          private-key: {ssh key here}
       discovery:
         enabled: true
         service-id: configserver
